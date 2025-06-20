@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(Constants.BASE_URL + Constants.EMPLOYEE_URL)
@@ -54,5 +55,12 @@ public class EmployeeController {
     @Operation(summary = "Get All Employees", description = "Returns a list of all employees")
     public ResponseEntity<List<Employee>> getAll() {
         return ResponseEntity.ok(employeeService.getAll());
+    }
+
+
+    @GetMapping
+    @Operation(summary = "Get All Employee Manager", description = "Returns a list of all Managers")
+    public ResponseEntity<List<Employee>> getAllManager() {
+        return ResponseEntity.ok(employeeService.getAllManager());
     }
 }
