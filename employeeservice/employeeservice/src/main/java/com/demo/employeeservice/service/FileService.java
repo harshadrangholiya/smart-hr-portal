@@ -39,4 +39,7 @@ public class FileService {
 
         return reportRepository.save(report);
     }
+    public EmployeeReport getLatestReportMeta(Long employeeId) {
+        return reportRepository.findTopByEmployeeIdOrderByUploadedAtDesc(employeeId).orElse(null);
+    }
 }
