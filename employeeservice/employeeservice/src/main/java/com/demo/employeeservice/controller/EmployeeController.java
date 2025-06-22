@@ -58,7 +58,7 @@ public class EmployeeController {
     }
 
 
-    @GetMapping
+    @GetMapping("/getAllManager")
     @Operation(summary = "Get All Employee Manager", description = "Returns a list of all Managers")
     public ResponseEntity<List<Employee>> getAllManager() {
         return ResponseEntity.ok(employeeService.getAllManager());
