@@ -1,7 +1,6 @@
 package com.demo.departmentservice.security;
 
 
-import com.demo.departmentservice.config.EnvParser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -16,10 +15,14 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    private EnvParser parser;
+    @Value("${jwt.secret}")
+    private String secret;
+
+    @Value("${jwt.expiration}")
+    private long expiration;
 
     private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(parser.getSecret().getBytes());
+        return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
     public String generateToken(String username, String roles) {
@@ -27,7 +30,7 @@ public class JwtUtil {
                 .setSubject(username)
                 .claim("roles", roles)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + parser.getExpiration()))
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS512)
                 .compact();
     }

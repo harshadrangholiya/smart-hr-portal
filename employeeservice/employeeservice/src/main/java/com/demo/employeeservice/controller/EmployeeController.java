@@ -4,6 +4,7 @@ import com.demo.employeeservice.constant.Constants;
 import com.demo.employeeservice.entity.Employee;
 import com.demo.employeeservice.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequestMapping(Constants.BASE_URL + Constants.EMPLOYEE_URL)
 @Tag(name = "Employee Controller", description = "Handles employee operations")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
