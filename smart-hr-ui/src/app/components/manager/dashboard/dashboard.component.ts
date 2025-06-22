@@ -101,4 +101,14 @@ export class DashboardComponent {
       });
     }
   }
+  
+  downloadReport(empId: number) {
+    this.employeeService.downloadReport(empId).subscribe(blob => {
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = `report_${empId}`;  // No .pdf or .docx forced here
+      link.click();
+    });
+  }
+  
 }

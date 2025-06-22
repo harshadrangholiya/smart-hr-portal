@@ -33,7 +33,12 @@ export class EmployeeService {
 
   uploadReport(employeeId: number, formData: FormData): Observable<any> {
     return this.http.post(`http://localhost:8082/api/v2/emp/file/upload/${employeeId}`, formData);
-  }  
-  
+  } 
+
+  downloadReport(employeeId: number): Observable<Blob> {
+    return this.http.get(`http://localhost:8082/api/v2/emp/file/download-report/${employeeId}`, {
+      responseType: 'blob'
+    });
+  }
 
 }

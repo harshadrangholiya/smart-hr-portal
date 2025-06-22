@@ -44,6 +44,7 @@
             <td>
               <button class="btn btn-warning btn-sm" (click)="editEmployee(emp)">Edit</button> &nbsp;
               <button class="btn btn-danger btn-sm" (click)="deleteEmployee(emp.id)">Delete</button>&nbsp;
+              <button class="btn btn-success btn-sm" (click)="downloadReport(emp.id)">Download Report</button>&nbsp;
               <div class="mt-2">
                 <input type="file" (change)="onFileSelected($event, emp.id)" class="form-control form-control-sm mb-1" />
                 <button class="btn btn-primary btn-sm"  (click)="uploadReport()" [disabled]="!selectedFile || selectedEmployeeId !== emp.id">Upload Report</button>
