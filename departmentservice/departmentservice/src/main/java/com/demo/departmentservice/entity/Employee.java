@@ -21,5 +21,5 @@ public class Employee {
     private String email;
     private Long departmentId;
 
-//    private Employee manager; // Self-referencing for manager
+    private Long managerId; // Self-referencing for manager
 }

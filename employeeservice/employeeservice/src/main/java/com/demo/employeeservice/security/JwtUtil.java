@@ -1,10 +1,12 @@
 package com.demo.employeeservice.security;
 
 
+import com.demo.employeeservice.config.EnvParser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,14 +17,11 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secret}")
-    private String secret;
-
-    @Value("${jwt.expiration}")
-    private long expiration;
+    @Autowired
+    private EnvParser envParser;
 
     private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(secret.getBytes());
+        return Keys.hmacShaKeyFor(envParser.getSecret().getBytes());
     }
 
     public String generateToken(String username, String roles) {
@@ -30,7 +29,7 @@ public class JwtUtil {
                 .setSubject(username)
                 .claim("roles", roles)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .setExpiration(new Date(System.currentTimeMillis() + envParser.getExpiration()))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS512)
                 .compact();
     }

@@ -1,10 +1,9 @@
-package com.demo.departmentservice.jdbc;
+package com.demo.employeeservice.jdbc;
 
-import com.demo.departmentservice.config.EnvParser;
+import com.demo.employeeservice.config.EnvParser;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -33,20 +32,18 @@ public class DBSource {
     }
 
 
-    public void insertDepartment(Long id, String name, String description, Long managerId) {
-        String sql = "INSERT INTO department (id,name, description, manager_id) VALUES (?, ?, ?, ?)";
+    public void insertEmployee(Long id, String name, String email, Long departmentId, Long managerId) {
+        String sql = "INSERT INTO employee (id,name, email, department_id, manager_id) VALUES (?, ?, ?, ?,?)";
 
         try (Connection conn = getConnection();  // Use your DBSource to get connection
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1, id);
             stmt.setString(2, name);
-            stmt.setString(3, description);
-            if(managerId != null) {
-                stmt.setLong(4, managerId);
-            }else {
-                stmt.setNull(4, java.sql.Types.BIGINT);
-            }
+            stmt.setString(3, email);
+            stmt.setLong(4, departmentId);
+            stmt.setLong(5, managerId);
+
 
             int rowsInserted = stmt.executeUpdate();
 
@@ -58,9 +55,33 @@ public class DBSource {
             e.printStackTrace();
         }
     }
+    public void updateManagerIdInDepartment(Long deptId, Long managerId) {
+        String sql = "UPDATE department SET manager_id = ? WHERE id = ?";
 
-    public void deleteDepartment(Long id) {
-        String sql = "DELETE FROM department WHERE id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, managerId);
+            stmt.setLong(2, deptId);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Department ID " + deptId + " updated with manager ID " + managerId + " successfully!");
+            } else {
+                System.out.println("No department found with ID " + deptId);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+    public void deleteEmployee(Long id) {
+        String sql = "DELETE FROM employee WHERE id = ?";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -79,6 +100,4 @@ public class DBSource {
             e.printStackTrace();
         }
     }
-
-
 }

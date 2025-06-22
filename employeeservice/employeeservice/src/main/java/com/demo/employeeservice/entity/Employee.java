@@ -1,5 +1,6 @@
 package com.demo.employeeservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,5 +23,6 @@ public class Employee {
 
     @ManyToOne
     @JoinColumn(name = "manager_id")
+    @JsonIgnore
     private Employee manager; // Self-referencing for manager
 }
