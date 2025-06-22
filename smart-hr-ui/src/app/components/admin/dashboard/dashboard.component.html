@@ -1,0 +1,32 @@
+<div class="container mt-4">
+  <h2>Admin Dashboard</h2>
+
+  <h4>Departments</h4>
+  <table class="table table-bordered">
+    <thead><tr><th>Name</th><th>Actions</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let dept of departments">
+        <td>{{ dept.name }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm">Edit</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteDepartment(dept.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 class="mt-5">Employees</h4>
+  <table class="table table-bordered">
+    <thead><tr><th>Name</th><th>Email</th><th>Actions</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let emp of employees">
+        <td>{{ emp.name }}</td>
+        <td>{{ emp.email }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm">Edit</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteEmployee(emp.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

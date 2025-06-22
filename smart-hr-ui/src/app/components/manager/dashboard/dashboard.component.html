@@ -1,0 +1,45 @@
+<div class="container mt-4">
+  <h2>Manage Employees</h2>
+  <form [formGroup]="employeeForm" (ngSubmit)="submitForm()">
+    <div class="form-group">
+      <label>Name</label>
+      <input class="form-control" formControlName="name">
+    </div>
+    <div class="form-group mt-2">
+      <label>Email</label>
+      <input class="form-control" formControlName="email">
+    </div>
+    <div class="form-group mt-2">
+      <label>Department</label>
+      <select class="form-control" formControlName="department">
+        <option *ngFor="let dept of departments" [value]="dept.id">{{ dept.name }}</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-success mt-3">{{ isEditing ? 'Update' : 'Add' }} Employee</button>&nbsp;
+    <button type="button" class="btn btn-secondary mt-3 ms-2" (click)="resetForm()" *ngIf="isEditing">Cancel</button>
+  </form>
+
+  <table class="table table-bordered mt-4">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Department</th>
+        <th>Manager</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let emp of employees">
+        <td>{{ emp.name }}</td>
+        <td>{{ emp.email }}</td>
+        <td>{{ emp.department?.name }}</td>
+        <td>{{ emp.department?.managerId }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm" (click)="editEmployee(emp)">Edit</button>&nbsp;
+          <button class="btn btn-danger btn-sm" (click)="deleteEmployee(emp.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
