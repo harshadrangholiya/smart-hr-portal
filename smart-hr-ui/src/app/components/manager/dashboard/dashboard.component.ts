@@ -10,12 +10,13 @@ import { ReportService } from 'src/app/services/report.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-
   employees: any[] = [];
   departments: any[] = [];
   employeeForm: FormGroup;
   isEditing = false;
   editingId: number | null = null;
+  selectedFile: File | null = null;
+  selectedEmployeeId: number | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -44,17 +45,11 @@ export class DashboardComponent {
 
   submitForm(): void {
     const payload: any = {
+      id: this.editingId || 0,
       name: this.employeeForm.value.name,
       email: this.employeeForm.value.email,
       department: { id: +this.employeeForm.value.department },
     };
-    
-    if (this.isEditing) {
-      payload.id = this.editingId;
-    }
-    
-    
-
     if (this.isEditing && this.editingId !== null) {
       this.employeeService.update(this.editingId, payload).subscribe(() => {
         this.loadEmployees();
@@ -86,5 +81,24 @@ export class DashboardComponent {
     this.employeeForm.reset();
     this.editingId = null;
     this.isEditing = false;
+  }
+
+  onFileSelected(event: any, empId: number): void {
+    this.selectedFile = event.target.files[0];
+    this.selectedEmployeeId = empId;
+  }
+
+  uploadReport(): void {
+    if (this.selectedFile && this.selectedEmployeeId != null) {
+      const formData = new FormData();
+      formData.append('file', this.selectedFile);
+      this.employeeService.uploadReport(this.selectedEmployeeId, formData).subscribe(() => {
+        alert('Report uploaded successfully.');
+        this.selectedFile = null;
+        this.selectedEmployeeId = null;
+        this.loadEmployees();
+        this.resetForm();
+      });
+    }
   }
 }

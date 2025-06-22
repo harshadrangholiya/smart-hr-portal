@@ -31,4 +31,9 @@ export class EmployeeService {
     return this.http.get<any[]>(`${this.url}/getAllManager`);
   }  
 
+  uploadReport(employeeId: number, formData: FormData): Observable<any> {
+    return this.http.post(`http://localhost:8082/api/v2/emp/file/upload/${employeeId}`, formData);
+  }  
+  
+
 }
