@@ -1,0 +1,72 @@
+<!-- Success Alert -->
+<div *ngIf="successMessage" class="custom-alert alert alert-success">
+  {{ successMessage }}
+</div>
+
+<!-- Error Alert -->
+<div *ngIf="errorMessage" class="custom-alert alert alert-danger">
+  {{ errorMessage }}
+</div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow">
+          <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Register</h4>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+              <div class="form-group mb-3">
+                <label>User Name</label>
+                <input type="text" class="form-control" formControlName="username" placeholder="Enter Username" />
+                <div class="text-danger" *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+                    Username is required
+                </div>
+              </div>
+  
+              <div class="form-group mb-3">
+                <label>Password</label>
+                <div class="input-group">
+                  <input
+                    [type]="showPassword ? 'text' : 'password'"
+                    class="form-control"
+                    formControlName="password"
+                    placeholder="Enter password"
+                  />
+                  <div class="input-group-append">
+                    <span class="input-group-text" style="cursor: pointer;" (click)="togglePasswordVisibility()">
+                      <i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    </span>
+                  </div>
+                </div>
+                <div class="text-danger" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                  Password is required
+                </div>
+              </div>
+              
+                            
+              <div class="form-group mb-3">
+                <label>Role</label>
+                <select class="form-control" formControlName="role">
+                  <option value="">Select Role</option>
+                  <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+                </select>
+                <div class="text-danger" *ngIf="registerForm.get('role')?.invalid && registerForm.get('role')?.touched">
+                  Role is required
+                </div>
+              </div>
+  
+              <div class="form-group text-center">
+                <button class="btn btn-primary" type="submit" [disabled]="registerForm.invalid">Register</button>
+              </div>
+  
+              <div class="text-danger text-center mt-2" *ngIf="errorMessage">
+                {{ errorMessage }}
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
